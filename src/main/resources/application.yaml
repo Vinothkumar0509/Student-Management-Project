@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: springbootdemo
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/student_demo
+    username: postgres
+    password: vinolancy
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  sql:
+    init:
+      mode: always
