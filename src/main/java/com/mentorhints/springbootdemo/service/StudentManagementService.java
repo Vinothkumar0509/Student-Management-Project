@@ -1,10 +1,14 @@
 package com.mentorhints.springbootdemo.service;
 
 import com.mentorhints.springbootdemo.Utils.StudentMapperUtils;
+import com.mentorhints.springbootdemo.Utils.SubjectMapperUtils;
 import com.mentorhints.springbootdemo.exception.StudentNotFoundException;
 import com.mentorhints.springbootdemo.model.Student;
+import com.mentorhints.springbootdemo.model.Subject;
 import com.mentorhints.springbootdemo.repository.StudentRepository;
+import com.mentorhints.springbootdemo.repository.SubjectRepository;
 import com.mentorhints.springbootdemo.response.StudentResponse;
+import com.mentorhints.springbootdemo.response.SubjectResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,8 @@ public class StudentManagementService {
 
     private final StudentMapperUtils studentMapperUtils;
     private final StudentRepository studentRepository;
+    private final SubjectMapperUtils subjectMapperUtils;
+
     List<Student> studentList = new ArrayList<>();
 
 
@@ -29,17 +35,23 @@ public class StudentManagementService {
         return studentModel.getName() + " has been added successfully";
     }
 
-    public List<StudentResponse> getAllStudents() {
+    public List<Student> getAllStudents() {
         List<Student> students = studentRepository.findAll();
-        return students.stream()
-                .map(studentMapperUtils::mapToStudentResponse)
-                .toList();
+        return students;
+//        return students.stream()
+//                .map(studentMapperUtils::mapToStudentResponse)
+//                .toList();
     }
 
     public StudentResponse findByStudentId(String id) {
         Student student = studentRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new StudentNotFoundException("Student with id: " + id + " not found"));
-        return studentMapperUtils.mapToStudentResponse(student);
+
+        List<SubjectResponse>  subjectResponse = student.getSubjects().stream()
+                .map(sub-> subjectMapperUtils.mapToSubjectResponse(sub))
+                .toList();
+
+        return studentMapperUtils.mapToStudentResponse(student,subjectResponse);
     }
 
     public StudentResponse findByStudentName(String name) {

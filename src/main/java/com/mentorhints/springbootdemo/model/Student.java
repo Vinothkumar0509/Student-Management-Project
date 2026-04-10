@@ -6,6 +6,7 @@ import com.mentorhints.springbootdemo.bean.StudentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -28,6 +29,12 @@ public class Student {
     private String mobileNo;
     @Enumerated(value = EnumType.STRING)
     private StudentStatus studentStatus;
+
+    // mapping is done but we need to tell this to hibernate so we are using this
+    @OneToMany(mappedBy = "student",fetch = FetchType.EAGER)
+
+    private List<Subject> subjects;//this is for java
+
 
 //    public Student(StudentStatus studentStatus, String mobileNo, String parentName, String email, Gender gender, String address, Integer age, String name) {
 //        this.studentStatus = studentStatus;
