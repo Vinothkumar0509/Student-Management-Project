@@ -25,6 +25,7 @@ public class Subject {
     @ManyToOne
     //Foreign Key(student id)
     //student class inside id is referred as student_id
+    //owing side(where the Join column annotation is present)
     @JoinColumn(name = "student_id")
     @JsonIgnore
     private Student student;

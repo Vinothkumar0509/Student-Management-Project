@@ -30,8 +30,8 @@ public class Student {
     @Enumerated(value = EnumType.STRING)
     private StudentStatus studentStatus;
 
-    // mapping is done but we need to tell this to hibernate so we are using this
-    @OneToMany(mappedBy = "student",fetch = FetchType.EAGER)
+    // mapping is done but we need to tell this to hibernate so we are using this && Inversion side
+    @OneToMany(mappedBy = "student",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 
     private List<Subject> subjects;//this is for java
 
