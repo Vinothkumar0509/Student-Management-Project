@@ -35,23 +35,23 @@ public class StudentManagementService {
         return studentModel.getName() + " has been added successfully";
     }
 
-    public List<Student> getAllStudents() {
+    public List<StudentResponse> getAllStudents() {
         List<Student> students = studentRepository.findAll();
-        return students;
-//        return students.stream()
-//                .map(studentMapperUtils::mapToStudentResponse)
-//                .toList();
+//        return students;
+        return students.stream()
+                .map(studentMapperUtils::mapToStudentResponse)
+                .toList();
     }
 
     public StudentResponse findByStudentId(String id) {
         Student student = studentRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new StudentNotFoundException("Student with id: " + id + " not found"));
 
-        List<SubjectResponse>  subjectResponse = student.getSubjects().stream()
-                .map(sub-> subjectMapperUtils.mapToSubjectResponse(sub))
+        List<SubjectResponse> subjectResponse = student.getSubjects().stream()
+                .map(sub -> subjectMapperUtils.mapToSubjectResponse(sub))
                 .toList();
 
-        return studentMapperUtils.mapToStudentResponse(student,subjectResponse);
+        return studentMapperUtils.mapToStudentResponse(student, subjectResponse);
     }
 
     public StudentResponse findByStudentName(String name) {

@@ -28,7 +28,7 @@ public class StudentDetailsController {
     }
 
     @GetMapping("/all")
-    public List<Student> findAllStudents() {
+    public List<StudentResponse> findAllStudents() {
         return studentManagementService.getAllStudents();
     }
 
